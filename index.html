@@ -177,7 +177,7 @@
                     const locked = localStorage.getItem(key) !== 'true';
                     setLockState(element, key, locked);
                     suppressNextClick = true;
-                }, 1000);
+                }, 500);
             });
 
             const cancelPress = () => {
