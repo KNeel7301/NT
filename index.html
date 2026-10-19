@@ -36,9 +36,9 @@
 
         <!-- Top content -->
         <div class="card-top">
-            <div class="qr">
+            <button class="qr" type="button" aria-label="Enlarge QR code" aria-haspopup="dialog" onclick="openQrCode()">
                 <img class="qr-code" src="your-qr-code-image.png" id="QRCODE" alt="QR Code">
-            </div>
+            </button>
             <div class="tap">Tap to enlarge</div>
             <hr class="divider">
             <div class="interstate" onclick="updateStateText()">INTERSTATE</div>
@@ -66,6 +66,10 @@
         </div>
 
     </div>
+
+    <dialog class="qr-modal" id="qr-modal" aria-label="Enlarged QR code">
+        <img src="your-qr-code-image.png" alt="Enlarged QR Code">
+    </dialog>
 
     <!-- <script>
         function updateMonthAndYear() {
@@ -105,6 +109,20 @@
     </script> -->
 
     <script>
+        const qrModal = document.getElementById('qr-modal');
+
+        function openQrCode() {
+            qrModal.showModal();
+        }
+
+        function closeQrCode() {
+            qrModal.close();
+        }
+
+        qrModal.addEventListener('click', event => {
+            if (event.target === qrModal) closeQrCode();
+        });
+
         function updateMonthAndYear() {
             var currentDate = new Date();
             var monthNames = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];

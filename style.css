@@ -129,6 +129,9 @@ body::after {
     max-width: 225px;
     max-height: 225px;
     margin: 0 auto 0px;
+    border: 0;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
 }
 
 .qr img {
@@ -136,6 +139,28 @@ body::after {
     height: 100%;
     background: white;
     padding: 8px;
+}
+
+.qr-modal {
+    position: fixed;
+    width: min(86vw, 420px);
+    aspect-ratio: 1;
+    max-height: 86svh;
+    padding: 0;
+    overflow: visible;
+    border: 0;
+    background: transparent;
+}
+
+.qr-modal::backdrop {
+    background: rgba(0, 0, 0, 0.72);
+}
+
+.qr-modal > img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
 }
 
 .tap {
