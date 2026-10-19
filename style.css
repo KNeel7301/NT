@@ -148,11 +148,18 @@ hr.divider {
     user-select: none;
     touch-action: manipulation;
     transition: opacity 0.15s ease;
+    -webkit-tap-highlight-color: transparent;
 }
 
-.interstate.is-locked,
-.zone .number.is-locked {
+.interstate.is-locked {
     opacity: 0.65;
+}
+
+.zone .number.is-locked {
+    color: #000;
+    opacity: 1;
+    filter: none;
+    -webkit-text-fill-color: #000;
 }
 
 .interstate.intrastate {
