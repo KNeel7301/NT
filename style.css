@@ -13,7 +13,7 @@ body::before {
     content: "";
     position: fixed;
     left: 50%;
-    bottom: env(safe-area-inset-bottom);
+    bottom: calc(env(safe-area-inset-bottom) - 2px);
     width: 7px;
     height: 7px;
     border-radius: 50%;
@@ -141,6 +141,18 @@ hr.divider {
     letter-spacing: 0px;
     margin-bottom: 5px;
     margin-top: 20px;
+}
+
+.interstate,
+.zone .number {
+    user-select: none;
+    touch-action: manipulation;
+    transition: opacity 0.15s ease;
+}
+
+.interstate.is-locked,
+.zone .number.is-locked {
+    opacity: 0.65;
 }
 
 .interstate.intrastate {

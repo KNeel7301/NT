@@ -70,6 +70,7 @@
         }
 
         function updateZoneText() {
+            if (localStorage.getItem('ticketZoneLocked') === 'true') return;
             const zoneElement = document.querySelector('.number');
             let currentZone = parseInt(zoneElement.textContent, 10);
             currentZone = currentZone === 9 ? 2 : currentZone + 1;
@@ -149,11 +150,52 @@
         }
         function updateStateText() {
             const el = document.querySelector('.interstate');
+            if (localStorage.getItem('ticketStateLocked') === 'true') return;
             const isInterstate = el.dataset.mode !== 'intra';
             el.dataset.mode = isInterstate ? 'intra' : 'inter';
             el.textContent = isInterstate ? 'INTRASTATE' : 'INTERSTATE';
             el.classList.toggle('intrastate', isInterstate);
         }
+
+        function setLockState(element, key, locked) {
+            localStorage.setItem(key, String(locked));
+            element.classList.toggle('is-locked', locked);
+            element.setAttribute('aria-pressed', String(locked));
+            element.title = locked ? 'Locked — long press to unlock' : 'Long press to lock';
+        }
+
+        function enableLongPressLock(element, key) {
+            let pressTimer;
+            let suppressNextClick = false;
+
+            setLockState(element, key, localStorage.getItem(key) === 'true');
+
+            element.addEventListener('pointerdown', () => {
+                suppressNextClick = false;
+                pressTimer = window.setTimeout(() => {
+                    const locked = localStorage.getItem(key) !== 'true';
+                    setLockState(element, key, locked);
+                    suppressNextClick = true;
+                }, 600);
+            });
+
+            const cancelPress = () => {
+                window.clearTimeout(pressTimer);
+            };
+            window.addEventListener('pointerup', cancelPress);
+            window.addEventListener('pointercancel', cancelPress);
+            element.addEventListener('pointerleave', cancelPress);
+            element.addEventListener('contextmenu', event => event.preventDefault());
+            element.addEventListener('click', event => {
+                if (!suppressNextClick) return;
+                suppressNextClick = false;
+                event.preventDefault();
+                event.stopImmediatePropagation();
+            }, true);
+        }
+
+        enableLongPressLock(document.querySelector('.number'), 'ticketZoneLocked');
+        enableLongPressLock(document.querySelector('.interstate'), 'ticketStateLocked');
 
         updateCountdown();
         setInterval(updateCountdown, 1000);
