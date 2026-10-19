@@ -107,6 +107,7 @@
         }
 
         function updateZoneText() {
+            if (localStorage.getItem('ticketZoneLocked') === 'true') return;
             const zoneElement = document.querySelector('.number');
             let currentZone = parseInt(zoneElement.textContent, 10);
             currentZone = currentZone === 9 ? 2 : currentZone + 1;
@@ -176,7 +177,7 @@
                     const locked = localStorage.getItem(key) !== 'true';
                     setLockState(element, key, locked);
                     suppressNextClick = true;
-                }, 600);
+                }, 1000);
             });
 
             const cancelPress = () => {
